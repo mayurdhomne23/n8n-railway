@@ -15,5 +15,14 @@ WORKDIR /data
 EXPOSE $PORT
 
 ENV N8N_USER_ID=root
+ENV DB_TYPE=postgresdb
+ENV NODE_FUNCTION_ALLOW_EXTERNAL=pg
 
-CMD export N8N_PORT=$PORT && n8n start
+CMD ["/bin/sh", "-c", "\
+    export N8N_PORT=$PORT && \
+    export DB_POSTGRESDB_HOST=$PGHOST && \
+    export DB_POSTGRESDB_PORT=$PGPORT && \
+    export DB_POSTGRESDB_DATABASE=$PGDATABASE && \
+    export DB_POSTGRESDB_USER=$PGUSER && \
+    export DB_POSTGRESDB_PASSWORD=$PGPASSWORD && \
+    n8n start"]
